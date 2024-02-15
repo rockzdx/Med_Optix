@@ -2,19 +2,39 @@ package com.example.medOptix.model;
 
 import jakarta.persistence.*;
 
-import java.util.Objects;
-
 @Entity
 @Table(name = "person")
 public class PersonModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long person_id;
-    String email;
-    Integer age;
-    String gender;
-    String name;
-    String password;
+    private Long personId;
+    private String email;
+    private Integer age;
+    private String gender;
+    private String name;
+    private String password;
+
+    @OneToOne(mappedBy = "person")
+    private EntityModel entity;
+
+    @OneToOne(mappedBy = "person")
+    private AppointmentsModel appointmentsModel;
+
+    public AppointmentsModel getAppointmentsModel() {
+        return appointmentsModel;
+    }
+
+    public void setAppointmentsModel(AppointmentsModel appointmentsModel) {
+        this.appointmentsModel = appointmentsModel;
+    }
+
+    public EntityModel getEntity() {
+        return entity;
+    }
+
+    public void setEntity(EntityModel entity) {
+        this.entity = entity;
+    }
 
     public String getPassword() {
         return password;
@@ -24,12 +44,12 @@ public class PersonModel {
         this.password = password;
     }
 
-    public Long getPerson_id() {
-        return person_id;
+    public Long getPersonId() {
+        return personId;
     }
 
-    public void setPerson_id(Long person_id) {
-        this.person_id = person_id;
+    public void setPersonId(Long person_id) {
+        this.personId = person_id;
     }
 
     public String getEmail() {
@@ -67,11 +87,12 @@ public class PersonModel {
     @Override
     public String toString() {
         return "PersonModel{" +
-                "person_id=" + person_id +
+                "person_id=" + personId +
                 ", email='" + email + '\'' +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
                 ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

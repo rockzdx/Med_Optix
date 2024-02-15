@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/medOptix.iml" filepath="$PROJECT_DIR$/.idea/medOptix.iml" />
+      <module fileurl="file://$PROJECT_DIR$/medOptix/medOptix.iml" filepath="$PROJECT_DIR$/medOptix/medOptix.iml" />
     </modules>
   </component>
 </project>
