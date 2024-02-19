@@ -1,16 +1,12 @@
 package com.example.medOptix.controller;
 
-import ch.qos.logback.core.model.Model;
 import com.example.medOptix.model.ClinicModel;
 import com.example.medOptix.model.PersonModel;
 import com.example.medOptix.service.AuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.sql.SQLOutput;
 
 @Controller
 public class AuthController {
@@ -74,9 +70,9 @@ public class AuthController {
     }
 
     @PostMapping("/clinicRegister")
-    public String clinicRegister(ClinicModel clinicModel){
+    public String clinicRegister(ClinicModel clinicModel,PersonModel personModel){
         System.out.println("ClinicRegister_request: "+clinicModel);
-        ClinicModel registeredClinic = authService.registeredClinic(clinicModel.getName(),clinicModel.getEmail(),clinicModel.getDescription(),clinicModel.getAddress(),clinicModel.getPassword());
+        ClinicModel registeredClinic = authService.registeredClinic(clinicModel.getClinicName(),clinicModel.getEmail(),clinicModel.getDescription(),clinicModel.getAddress(),clinicModel.getPassword(),personModel.getAge(),personModel.getName(),personModel.getGender());
         return registeredClinic == null ? "error_page" : "redirect:/clinicLogin";
     }
 

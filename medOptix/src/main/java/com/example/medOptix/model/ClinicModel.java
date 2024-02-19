@@ -7,8 +7,9 @@ import jakarta.persistence.*;
 public class ClinicModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "clinicId")
     private Long clinicId;
-    private String name;
+    private String clinicName;
     private String description;
     private String address;
     private String email;
@@ -44,12 +45,12 @@ public class ClinicModel {
         this.clinicId = clinic_id;
     }
 
-    public String getName() {
-        return name;
+    public String getClinicName() {
+        return clinicName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setClinicName(String name) {
+        this.clinicName = name;
     }
 
     public String getDescription() {
@@ -87,12 +88,14 @@ public class ClinicModel {
     @Override
     public String toString() {
         return "ClinicModel{" +
-                "clinic_id=" + clinicId +
-                ", name='" + name + '\'' +
+                "clinicId=" + clinicId +
+                ", clinicName='" + clinicName + '\'' +
                 ", description='" + description + '\'' +
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", entity=" + entity +
+                ", appointmentsModel=" + appointmentsModel +
                 '}';
     }
 }

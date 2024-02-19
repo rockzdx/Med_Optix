@@ -1,18 +1,22 @@
 package com.example.medOptix.service;
 
-import com.example.medOptix.model.ClinicModel;
-import com.example.medOptix.model.PersonModel;
-import com.example.medOptix.repository.ClinicRepository;
-import com.example.medOptix.repository.PersonRepository;
+import com.example.medOptix.model.*;
+import com.example.medOptix.repository.*;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
+    private EntityRepository entityRepository;
+    private RolesRepository rolesRepository;
     private static PersonRepository personRepository;
     private static ClinicRepository clinicRepository;
-    public AuthService(PersonRepository personRepository, ClinicRepository clinicRepository) {
+    private EntityRoleMapRepository entityRoleMapRepository;
+    public AuthService(EntityRepository entityRepository, RolesRepository rolesRepository, PersonRepository personRepository, ClinicRepository clinicRepository, EntityRoleMapRepository entityRoleMapRepository) {
+        this.entityRepository = entityRepository;
+        this.rolesRepository = rolesRepository;
         AuthService.personRepository = personRepository;
         AuthService.clinicRepository = clinicRepository;
+        this.entityRoleMapRepository = entityRoleMapRepository;
     }
 
     public PersonModel registeredPerson(String name,String email, String password,int age, String gender){
@@ -23,13 +27,26 @@ public class AuthService {
                 System.out.println("duplicate");
                 return null;
             }
+            EntityModel entityModel = new EntityModel();
             PersonModel personModel = new PersonModel();
+            RolesModel rolesModel = new RolesModel();
+            EntityRoleMapModel entityRoleMapModel = new EntityRoleMapModel();
+            rolesModel.setRoleName("person");
             personModel.setName(name);
             personModel.setPassword(password);
             personModel.setEmail(email);
             personModel.setAge(age);
             personModel.setGender(gender);
-            return personRepository.save(personModel);
+
+            entityModel.setPerson(personModel);
+            entityRoleMapModel.setEntityModel(entityModel);
+            entityRoleMapModel.setRolesModel(rolesModel);
+
+            personRepository.save(personModel);
+            entityRepository.save(entityModel);
+            rolesRepository.save(rolesModel);
+            entityRoleMapRepository.save(entityRoleMapModel);
+            return personModel;
         }
     }
 
@@ -38,7 +55,7 @@ public class AuthService {
         return personRepository.findByEmailAndPassword(email,password).orElse(null);
     }
 
-    public ClinicModel registeredClinic(String name, String email, String description, String address, String password){
+    public ClinicModel registeredClinic(String clinicName, String email, String description, String address, String password,Integer age,String name,String gender){
         if(email == null && password == null){
             return null;
         }else{
@@ -46,14 +63,34 @@ public class AuthService {
                 System.out.println("duplicate");
                 return null;
             }
+            EntityModel entityModel = new EntityModel();
             ClinicModel clinicModel = new ClinicModel();
-            clinicModel.setName(name);
+            PersonModel personModel = new PersonModel();
+            RolesModel rolesModel = new RolesModel();
+            EntityRoleMapModel roleMapModel = new EntityRoleMapModel();
+            rolesModel.setRoleName("clinicAdmin");
+            clinicModel.setClinicName(clinicName);
             clinicModel.setEmail(email);
+            personModel.setEmail(email);
+            personModel.setPassword(password);
             clinicModel.setAddress(address);
             clinicModel.setDescription(description);
             clinicModel.setPassword(password);
-            return clinicRepository.save(clinicModel);
+            personModel.setName(name);
+            personModel.setAge(age);
+            personModel.setGender(gender);
 
+            roleMapModel.setRolesModel(rolesModel);
+            roleMapModel.setEntityModel(entityModel);
+            entityModel.setPerson(personModel);
+            entityModel.setClinic(clinicModel);
+
+            personRepository.save(personModel);
+            clinicRepository.save(clinicModel);
+            entityRepository.save(entityModel);
+            rolesRepository.save(rolesModel);
+            entityRoleMapRepository.save(roleMapModel);
+            return clinicModel;
         }
     }
     public static ClinicModel authenticateClinic(String email, String password){
