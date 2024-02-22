@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -20,9 +21,10 @@ public class SearchController {
         this.searchService = searchService;
     }
 
-//    @PostMapping("/search")
-//    public  getClinic(){
-//        return searchService.getClinicDetails("medcare");
-//    }
+    @RequestMapping("/clinicDetails")
+    public String clinicDetails(Model model){
+        model.addAttribute("clinicDetails",searchService.getAllClinicDetails());
+        return "clinicDetails";
+    }
 
 }
