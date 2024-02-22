@@ -23,7 +23,7 @@ public class AuthService {
         if(email == null && password == null){
             return null;
         }else{
-            if(personRepository.findByEmail(email).isPresent()){
+            if(personRepository.findByEmail(email) != null){
                 System.out.println("duplicate");
                 return null;
             }
@@ -52,7 +52,7 @@ public class AuthService {
 
     public static PersonModel authenticate(String email, String password){
         System.out.println("--------------------------"+personRepository.findByEmailAndPassword(email,password));
-        return personRepository.findByEmailAndPassword(email,password).orElse(null);
+        return personRepository.findByEmailAndPassword(email,password);
     }
 
     public ClinicModel registeredClinic(String clinicName, String email, String description, String address, String password,Integer age,String name,String gender){

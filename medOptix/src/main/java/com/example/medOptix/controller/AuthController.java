@@ -3,6 +3,7 @@ package com.example.medOptix.controller;
 import com.example.medOptix.model.ClinicModel;
 import com.example.medOptix.model.PersonModel;
 import com.example.medOptix.service.AuthService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,8 @@ public class AuthController {
     @GetMapping("/userLogReg")
     public ModelAndView user(ModelAndView modelAndView){
         modelAndView.setViewName("user_logreg_page");
+        System.out.println("user register get");
+
         return modelAndView;
     }
 
@@ -35,6 +38,9 @@ public class AuthController {
 
     @GetMapping("/register")
     public ModelAndView getRegisterPage(ModelAndView modelAndView,PersonModel personModel){
+        System.out.println("register_request: "+personModel);
+        System.out.println("register post");
+
         modelAndView.addObject("person",personModel);
         modelAndView.setViewName("registration_page");
         return modelAndView;
@@ -42,18 +48,23 @@ public class AuthController {
     @PostMapping("/register")
     public String register(PersonModel personModel){
         System.out.println("register_request: "+personModel);
-        PersonModel registeredPerson = authService.registeredPerson(personModel.getName(),personModel.getEmail(),personModel.getPassword(),personModel.getAge(),personModel.getGender());
+        System.out.println("register post");
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(personModel.getPassword());
+        PersonModel registeredPerson = authService.registeredPerson(personModel.getName(),personModel.getEmail(),encodedPassword,personModel.getAge(),personModel.getGender());
         return registeredPerson == null ? "error_page" : "redirect:/login";
     }
     @GetMapping("/login")
     public ModelAndView getLoginPage(ModelAndView modelAndView, PersonModel personModel){
+        System.out.println("login get");
         modelAndView.addObject("person",personModel);
-        modelAndView.setViewName("login_page");
+        modelAndView.setViewName("login");
         return modelAndView;
     }
 
     @PostMapping("/login")
     public String login (PersonModel personModel){
+        System.out.println("login post");
         System.out.println("login_request: "+ personModel);
         PersonModel authenticated = AuthService.authenticate(personModel.getEmail(),personModel.getPassword());
         if(authenticated != null){
@@ -62,6 +73,18 @@ public class AuthController {
             return "error_page";
         }
     }
+
+    @GetMapping("/private")
+    public String privateText(){
+        return "private";
+    }
+
+    @GetMapping("/public")
+    //bound to cause error
+    public String publicText(){
+        return "public string";
+    }
+
     @GetMapping("/clinicRegister")
     public ModelAndView getClinicRegPage(ModelAndView modelAndView, ClinicModel clinicModel){
         modelAndView.addObject("clinic",clinicModel);
