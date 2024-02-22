@@ -9,6 +9,6 @@ public interface ClinicRepository extends JpaRepository<ClinicModel,Long> {
     Optional<ClinicModel> findByEmailAndPassword(String email, String password);
     Optional<ClinicModel> findByEmail(String email);
 
-    Optional<ClinicModel> findByName();
+//    Optional<ClinicModel> findByName();
 
 }

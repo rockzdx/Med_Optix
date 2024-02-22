@@ -18,9 +18,9 @@ public class SearchService {
         return clinicRepository.findAll();
     }
 
-    public Optional<ClinicModel> getAllClinicDetails() {
-        return clinicRepository.findByName();
-    }
+//    public Optional<ClinicModel> getAllClinicDetails() {
+//        return clinicRepository.findByName();
+//    }
 
 //    public ClinicModel getClinicDetails(String name){
 //        return clinicRepository.findByName(name).get();

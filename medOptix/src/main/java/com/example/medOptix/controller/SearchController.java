@@ -21,10 +21,10 @@ public class SearchController {
         this.searchService = searchService;
     }
 
-    @RequestMapping("/clinicDetails")
-    public String clinicDetails(Model model){
-        model.addAttribute("clinicDetails",searchService.getAllClinicDetails());
-        return "clinicDetails";
-    }
+//    @RequestMapping("/clinicDetails")
+//    public String clinicDetails(Model model){
+//        model.addAttribute("clinicDetails",searchService.getAllClinicDetails());
+//        return "clinicDetails";
+//    }
 
 }
