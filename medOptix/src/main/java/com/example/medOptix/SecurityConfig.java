@@ -59,7 +59,7 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .defaultSuccessUrl("/private")
                         .permitAll()
-                );
+                );;;;
         return http.build();
     }
 
