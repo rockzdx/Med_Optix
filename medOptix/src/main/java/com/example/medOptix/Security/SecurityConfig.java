@@ -1,4 +1,4 @@
-package com.example.medOptix;
+package com.example.medOptix.Security;
 
 import com.example.medOptix.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfig {
-
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -51,7 +50,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(
                         authorizeHttp -> {
-                            authorizeHttp.requestMatchers("/private").authenticated()
+                            authorizeHttp.requestMatchers("/private").authenticated().requestMatchers("/public").hasRole("PERSON")
                                     .anyRequest().permitAll();
                         }
                 )
@@ -59,7 +58,7 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .defaultSuccessUrl("/private")
                         .permitAll()
-                );;;;
+                );
         return http.build();
     }
 

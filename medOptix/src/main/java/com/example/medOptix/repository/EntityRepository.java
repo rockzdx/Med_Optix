@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EntityRepository extends JpaRepository<EntityModel,Long> {
 
+    EntityModel findByEntityId(Long personId);
+
 }

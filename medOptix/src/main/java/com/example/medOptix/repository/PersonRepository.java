@@ -8,4 +8,7 @@ import java.util.Optional;
 public interface PersonRepository extends JpaRepository<PersonModel,Long> {
     PersonModel findByEmailAndPassword(String email,String password);
     PersonModel findByEmail(String email);
+
+
+
 }

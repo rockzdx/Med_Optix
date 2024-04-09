@@ -31,7 +31,8 @@ public class AuthService {
             PersonModel personModel = new PersonModel();
             RolesModel rolesModel = new RolesModel();
             EntityRoleMapModel entityRoleMapModel = new EntityRoleMapModel();
-            rolesModel.setRoleName("person");
+
+            rolesModel.setRoleName("ROLE_PERSON");
             personModel.setName(name);
             personModel.setPassword(password);
             personModel.setEmail(email);

@@ -3,11 +3,15 @@ package com.example.medOptix.controller;
 import com.example.medOptix.model.ClinicModel;
 import com.example.medOptix.model.PersonModel;
 import com.example.medOptix.service.AuthService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.sql.SQLOutput;
 
 @Controller
 public class AuthController {
@@ -57,6 +61,12 @@ public class AuthController {
     @GetMapping("/login")
     public ModelAndView getLoginPage(ModelAndView modelAndView, PersonModel personModel){
         System.out.println("login get");
+
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated() + "login get line 65");
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName() + "  " + " line 67");
+
+
         modelAndView.addObject("person",personModel);
         modelAndView.setViewName("login");
         return modelAndView;
@@ -67,6 +77,10 @@ public class AuthController {
         System.out.println("login post");
         System.out.println("login_request: "+ personModel);
         PersonModel authenticated = AuthService.authenticate(personModel.getEmail(),personModel.getPassword());
+
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+
         if(authenticated != null){
             return "user_home_page";
         }else{
@@ -76,13 +90,18 @@ public class AuthController {
 
     @GetMapping("/private")
     public String privateText(){
+
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
         return "private";
     }
 
     @GetMapping("/public")
     //bound to cause error
     public String publicText(){
-        return "public string";
+        return "public";
     }
 
     @GetMapping("/clinicRegister")
